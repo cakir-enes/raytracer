@@ -136,6 +136,7 @@ inline vec3 random_unit_vector() {
     auto r = sqrt(1 - z * z);
     return vec3(r * cos(a), r*sin(a), z);
 }
+
 inline vec3 random_in_hemisphere(const vec3& normal) {
     vec3 in_unit_sphere = random_in_unit_sphere();
     if (dot(in_unit_sphere, normal) > 0.0) // In the same hemisphere as the normal
@@ -143,4 +144,9 @@ inline vec3 random_in_hemisphere(const vec3& normal) {
     else
         return -in_unit_sphere;
 }
+
+inline vec3 reflect(const vec3& v, const vec3& n) {
+    return v - 2*dot(v,n)*n;
+}
+
 #endif /* vec3_h */

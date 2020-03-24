@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E3503523242A2609000650C3 /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3503521242A2609000650C3 /* sphere.cpp */; };
 		E3503526242A29A7000650C3 /* hittable_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3503524242A29A7000650C3 /* hittable_list.cpp */; };
+		E350352D242A5CCF000650C3 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E350352C242A5CCF000650C3 /* material.cpp */; };
 		E3EF27722429715A00CE5476 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3EF27712429715A00CE5476 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		E3503527242A2B40000650C3 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		E3503528242A2DC0000650C3 /* camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
 		E350352B242A59F9000650C3 /* material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
+		E350352C242A5CCF000650C3 /* material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
 		E3EF276E2429715A00CE5476 /* raytracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = raytracer; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3EF27712429715A00CE5476 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +73,7 @@
 			children = (
 				E3EF27712429715A00CE5476 /* main.cpp */,
 				E350352B242A59F9000650C3 /* material.h */,
+				E350352C242A5CCF000650C3 /* material.cpp */,
 				E350351F242A245A000650C3 /* hittable.h */,
 				E3503520242A24D4000650C3 /* sphere.h */,
 				E3403039242974C900BCA47E /* vec3.h */,
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E350352D242A5CCF000650C3 /* material.cpp in Sources */,
 				E3503523242A2609000650C3 /* sphere.cpp in Sources */,
 				E3EF27722429715A00CE5476 /* main.cpp in Sources */,
 				E3503526242A29A7000650C3 /* hittable_list.cpp in Sources */,

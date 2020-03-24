@@ -15,13 +15,15 @@
 class sphere : public hittable {
 public:
     sphere() {}
-    sphere(vec3 cen, double r) : center(cen), radius(r) {};
+    sphere(vec3 cen, double r, shared_ptr<material> m)
+        : center(cen), radius(r), mat_ptr(m) {};
     
     virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const;
     
 public:
     vec3 center;
     double radius;
+    shared_ptr<material> mat_ptr;
 };
 
 #endif /* sphere_h */

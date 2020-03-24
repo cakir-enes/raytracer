@@ -8,6 +8,7 @@
 
 #ifndef hittable_h
 #define hittable_h
+
 #include "utils.h"
 #include "ray.h"
 
