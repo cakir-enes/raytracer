@@ -18,8 +18,10 @@ public:
                          ) const = 0;
 };
 
+
+
 namespace materials {
-    
+double schlick(double cosine, double ref_idx);
 class lambertian : public material {
 public:
     lambertian(const vec3& a) : albedo(a) {}
@@ -40,6 +42,14 @@ public:
     vec3 albedo;
     double fuzz;
 };
+    
+    class dielectric : public material {
+    public:
+        double ref_idx;
+        dielectric(double ri) : ref_idx(ri) { }
+        
+        bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered) const;
+    };
     
 }; // namespace materials
 
