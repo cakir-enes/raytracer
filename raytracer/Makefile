@@ -10,7 +10,7 @@ OBJS := $(patsubst %.cpp,%.o,$(SRCS))
 
 all: $(TARGET)
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $^
+	$(CC) -O3 -o $@ $^
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $<
 clean:
