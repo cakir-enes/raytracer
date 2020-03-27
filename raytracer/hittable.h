@@ -12,12 +12,16 @@
 #include "ray.h"
 #include "utils.h"
 
+namespace materials {
 class material;
+};
 
+// Stores all the information about the hit point
 struct hit_record {
-  double t;
-  vec3 p;  // hit point
-  shared_ptr<material> mat_ptr;
+  double t;  // hit point closeness
+  vec3 p;    // hit point position
+  color c;   // hit point color
+  shared_ptr<materials::material> mat_ptr;
   vec3 normal;
   bool front_face;
 

@@ -15,7 +15,7 @@
 class sphere : public hittable {
  public:
   sphere() {}
-  sphere(vec3 cen, double r, shared_ptr<material> m)
+  sphere(vec3 cen, double r, shared_ptr<materials::material> m)
       : center(cen), radius(r), mat_ptr(m){};
 
   virtual bool hit(const ray& r,
@@ -26,7 +26,7 @@ class sphere : public hittable {
  public:
   vec3 center;
   double radius;
-  shared_ptr<material> mat_ptr;
+  shared_ptr<materials::material> mat_ptr;
 };
 
 #endif /* sphere_h */

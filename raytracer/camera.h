@@ -6,9 +6,7 @@
 //  Copyright © 2020 lymitshn. All rights reserved.
 //
 
-#ifndef camera_h
-#define camera_h
-
+#pragma once
 #include "utils.h"
 
 class camera {
@@ -53,5 +51,3 @@ class camera {
   vec3 u, v, w;
   double lens_radius;
 };
-
-#endif /* camera_h */

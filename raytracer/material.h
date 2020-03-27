@@ -11,54 +11,38 @@
 #include "hittable.h"
 #include "ray.h"
 
+namespace materials {
+
+struct illumunation {
+  ray scattered;
+  color contribution;
+};
+
 class material {
  public:
-  virtual bool scatter(const ray& r_in,
-                       const hit_record& rec,
-                       vec3& attenuation,
-                       ray&) const = 0;
+  virtual std::vector<illumunation> scatter(const ray& r_in,
+                                            const hit_record& rec) const = 0;
 };
 
-namespace materials {
 double schlick(double cosine, double ref_idx);
-class lambertian : public material {
- public:
-  lambertian(const vec3& a) : albedo(a) {}
 
-  bool scatter(const ray& r_in,
-               const hit_record& rec,
-               vec3& attenuation,
-               ray& scattered) const;
-
- public:
-  vec3 albedo;
+struct surface {
+  float ambient;
+  float diffuse;
+  float specular;
+  float shiniess;
+  float reflectivity;
 };
 
-class metal : public material {
+class custom : public material {
  public:
-  metal(const vec3& a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
+  custom(surface s) : _surface(s){};
 
-  bool scatter(const ray& r_in,
-               const hit_record& rec,
-               vec3& attenuation,
-               ray& scattered) const;
+  std::vector<illumunation> scatter(const ray& r_in, const hit_record& rec);
 
- public:
-  vec3 albedo;
-  double fuzz;
+ private:
+  surface _surface;
 };
-
-class dielectric : public material {
- public:
-  double ref_idx;
-  dielectric(double ri) : ref_idx(ri) {}
-
-  bool scatter(const ray& r_in,
-               const hit_record& rec,
-               vec3& attenuation,
-               ray& scattered) const;
-};
-
-};  // namespace materials
+}  // namespace materials
 
 #endif /* material_h */

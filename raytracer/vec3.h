@@ -72,6 +72,7 @@ class vec3 {
  public:
   double e[3];
 };
+using color = vec3;
 
 inline std::ostream& operator<<(std::ostream& out, const vec3& v) {
   return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
