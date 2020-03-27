@@ -16,6 +16,7 @@
 #include "hittable_list.hpp"
 #include "light.h"
 #include "material.h"
+#include "parser.h"
 #include "sphere.h"
 #include "tracer.h"
 #include "utils.h"
@@ -27,13 +28,15 @@ struct ASTR {
   int y;
 };
 int main() {
-  std::ifstream in("inp.txt");
-  std::string s;
-  vec3 pos, other;
-  in >> s >> pos >> other;
-  printf("%s\n", s.c_str());
-  printf("%f %f %f\n", pos.x(), pos.y(), pos.z());
-  printf("%f %f %f\n", other.x(), other.y(), other.z());
+  std::string file = "/home/ecakir/Downloads/test2.in";
+  auto p = parse_options(file);
+  std::cout << p.height << "\n";
+  // std::string s;
+  // vec3 pos, other;
+  // in >> s >> pos >> other;
+  // printf("%s\n", s.c_str());
+  // printf("%f %f %f\n", pos.x(), pos.y(), pos.z());
+  // printf("%f %f %f\n", other.x(), other.y(), other.z());
 }
 
 // int main(int argc, const char* argv[]) {

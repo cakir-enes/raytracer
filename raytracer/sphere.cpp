@@ -8,6 +8,8 @@
 
 #include "sphere.h"
 
+#include <memory>
+
 #include "material.h"
 
 bool sphere::hit(const ray& r,
@@ -28,7 +30,7 @@ bool sphere::hit(const ray& r,
       rec.p = r.at(rec.t);
       vec3 outward_normal = (rec.p - center) / radius;
       rec.set_face_normal(r, outward_normal);
-      rec.mat_ptr = mat_ptr;
+      rec.mat_ptr = std::make_shared<materials::surface>(mat_ptr);
       return true;
     }
     temp = (-half_b + root) / a;
@@ -37,7 +39,7 @@ bool sphere::hit(const ray& r,
       rec.p = r.at(rec.t);
       vec3 outward_normal = (rec.p - center) / radius;
       rec.set_face_normal(r, outward_normal);
-      rec.mat_ptr = mat_ptr;
+      rec.mat_ptr = std::make_shared<materials::surface>(mat_ptr);
       return true;
     }
   }

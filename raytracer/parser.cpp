@@ -4,7 +4,7 @@
 
 #include "sphere.h"
 
-options parse_objects(std::string filename) {
+options parse_options(std::string filename) {
   std::ifstream in(filename);
   if (!in.is_open())
     return options{};
@@ -41,7 +41,7 @@ options parse_objects(std::string filename) {
     }
     return lights;
   }();
-
+  std::cerr << "LIGHT SIZE " << lights.size() << "\n";
   auto pigments = [&in]() {
     int numP;
     std::string type;
@@ -54,18 +54,19 @@ options parse_objects(std::string filename) {
     }
     return colors;
   }();
-
+  std::cerr << "PIGMENT SIZE " << pigments.size() << "\n";
   auto surfaces = [&in]() {
     std::vector<materials::surface> surfaces;
     int numF;
     materials::surface s;
+    in >> numF;
     for (int i = 0; i < numF; i++) {
       in >> s;
       surfaces.push_back(s);
     }
     return surfaces;
   }();
-
+  std::cerr << "SURFACES SIZE " << pigments.size() << "\n";
   auto objects = [&]() {
     hittable_list world;
     int n, pigment_idx, surface_idx;
@@ -81,7 +82,7 @@ options parse_objects(std::string filename) {
     }
     return world;
   }();
-
+  std::cerr << "WORLD SIZE " << objects.objects.size() << "\n";
   light ambient = lights[0];
   lights.erase(lights.begin());
 
