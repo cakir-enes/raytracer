@@ -8,6 +8,8 @@
 
 #include "sphere.h"
 
+#include "material.h"
+
 bool sphere::hit(const ray& r,
                  double t_min,
                  double t_max,

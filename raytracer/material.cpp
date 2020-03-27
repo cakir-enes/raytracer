@@ -16,8 +16,8 @@ double schlick(double cosine, double ref_idx) {
   return r0 + (1 - r0) * pow((1 - cosine), 5);
 }
 
-std::vector<illumunation> custom::scatter(const ray& r_in,
-                                          const hit_record& rec) {
+std::vector<illumunation> surface::scatter(const ray& r_in,
+                                           const hit_record& rec) const {
   std::vector<illumunation> il;
   return il;
 }

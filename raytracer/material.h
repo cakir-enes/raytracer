@@ -18,31 +18,35 @@ struct illumunation {
   color contribution;
 };
 
-class material {
- public:
-  virtual std::vector<illumunation> scatter(const ray& r_in,
-                                            const hit_record& rec) const = 0;
-};
-
-double schlick(double cosine, double ref_idx);
-
 struct surface {
   float ambient;
   float diffuse;
   float specular;
   float shiniess;
   float reflectivity;
+  color pigment;
+
+  friend std::istream& operator>>(std::istream& str, surface& s) {
+    return str >> s.ambient >> s.diffuse >> s.specular >> s.shiniess >>
+           s.reflectivity;
+  }
+
+  std::vector<illumunation> scatter(const ray& r_in,
+                                    const hit_record& rec) const;
 };
 
-class custom : public material {
+class material {
  public:
-  custom(surface s) : _surface(s){};
+  material(surface s) : _surface(s) {}
+  std::vector<illumunation> scatter(const ray& r_in,
+                                    const hit_record& rec) const;
 
-  std::vector<illumunation> scatter(const ray& r_in, const hit_record& rec);
-
- private:
+ public:
   surface _surface;
 };
+
+double schlick(double cosine, double ref_idx);
+
 }  // namespace materials
 
 #endif /* material_h */

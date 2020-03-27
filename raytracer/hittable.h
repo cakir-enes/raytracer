@@ -9,11 +9,13 @@
 #ifndef hittable_h
 #define hittable_h
 
+#include <memory>
+
 #include "ray.h"
 #include "utils.h"
 
 namespace materials {
-class material;
+struct surface;
 };
 
 // Stores all the information about the hit point
@@ -21,7 +23,7 @@ struct hit_record {
   double t;  // hit point closeness
   vec3 p;    // hit point position
   color c;   // hit point color
-  shared_ptr<materials::material> mat_ptr;
+  std::shared_ptr<materials::surface> mat_ptr;
   vec3 normal;
   bool front_face;
 

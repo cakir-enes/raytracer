@@ -1,0 +1,4 @@
+asdasdasdasd.ppm
+10 40 2
+
+30 30 32

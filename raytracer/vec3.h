@@ -39,6 +39,10 @@ class vec3 {
     return *this;
   }
 
+  friend std::istream& operator>>(std::istream& str, vec3& data) {
+    return str >> data.e[0] >> data.e[1] >> data.e[2];
+  }
+
   vec3& operator/=(const double t) { return *this *= 1 / t; }
 
   double length() const { return sqrt(length_squared()); }

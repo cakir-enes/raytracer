@@ -7,7 +7,9 @@
 struct light {
   vec3 pos;
   color intensity;
-  float attenuation;
+  float a;
+  float b;
+  float c;
 };
 
 color phong(const light& l, const hit_record& rec);
