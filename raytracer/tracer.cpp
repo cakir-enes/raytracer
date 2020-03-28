@@ -1,11 +1,15 @@
 #include "tracer.h"
 
+#include "hittable.h"
 #include "light.h"
 #include "material.h"
+#include "ray.h"
+#include "vec3.h"
 
 color trace(const ray& _ray,
             const hittable& world,
-            const std::vector<std::reference_wrapper<light>> lights,
+            const light& ambient_light,
+            const std::vector<light> lights,
             const color& bg_color,
             int depth) {
   hit_record rec;
@@ -15,18 +19,23 @@ color trace(const ray& _ray,
    * If ray doesn't hit anything or recursion depth is exceeded return
    * background color
    * */
+
   if (depth > 50 || !world.hit(_ray, 0.001, infinity, rec))
     return bg_color;
+
   /**
    * Illumunations happened due to lights. Each visible light
    * contrib. to overral color of the point is calculated with
    * Phong model
    * */
   color light_illumunations = [&]() {
-    color total = vec3(0., 0., 0.);
+    color total =
+        ambient_light.intensity * rec.mat_ptr->ambient * rec.mat_ptr->pigment;
+
     for (const auto& l : lights) {
       if (is_visible(rec.p, l, world)) {
-        total += phong(l, rec);
+        auto _p = phong(l, rec);
+        total += _p;
       }
     }
     return total;
@@ -39,10 +48,10 @@ color trace(const ray& _ray,
    * */
   color material_illumunations = [&]() {
     color total = vec3(0., 0., 0.);
-    for (const auto& illum : rec.mat_ptr->scatter(_ray, rec)) {
-      total += illum.contribution *
-               trace(illum.scattered, world, lights, bg_color, depth + 1);
-    }
+    // for (const auto& illum : rec.mat_ptr->scatter(_ray, rec)) {
+    //   total += illum.contribution *
+    //            trace(illum.scattered, world, lights, bg_color, depth + 1);
+    // }
     return total;
   }();
   // Overral color is sum of the illums from lights and material (scattered ray
@@ -52,5 +61,8 @@ color trace(const ray& _ray,
 }
 
 bool is_visible(const vec3& p, const light& l, const hittable& world) {
+  hit_record rec;
+  ray r = ray(p, unit_vector(l.pos - p));
   return true;
+  // return !world.hit(r, 0.001, infinity, rec);
 }

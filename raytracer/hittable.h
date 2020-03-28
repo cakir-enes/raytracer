@@ -22,7 +22,7 @@ struct surface;
 struct hit_record {
   double t;  // hit point closeness
   vec3 p;    // hit point position
-  color c;   // hit point color
+  vec3 c;
   std::shared_ptr<materials::surface> mat_ptr;
   vec3 normal;
   bool front_face;

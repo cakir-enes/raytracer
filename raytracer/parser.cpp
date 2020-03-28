@@ -22,11 +22,11 @@ options parse_options(std::string filename) {
   }();
 
   auto cam = [&in, &dims]() {
-    vec3 pos, at, up;
+    vec3 eye, at, up;
     double fov_y;
-    in >> pos >> at >> up >> fov_y;
-    return camera(pos, at, up, fov_y, double(dims.first) / dims.second, 2.0,
-                  1.0);
+    in >> eye >> at >> up >> fov_y;
+    return camera(eye, at, up, fov_y, double(dims.first) / dims.second, 0.1,
+                  10.0);
   }();
 
   auto lights = [&in]() {
@@ -88,32 +88,4 @@ options parse_options(std::string filename) {
 
   return options{out_name, dims.first, dims.second, cam,
                  ambient,  lights,     objects};
-};
-
-class parser {
- public:
- private:
-  /**
-   * pos [x y z] intensity [r g b] attenuation [a bd cd^2]
-   * 1st line is AMBIENT LIGHTING
-   * returns <ambient light, lights>
-   * */
-  void parse_lights();
-
-  /**
-   * # pigments [numP]
-   * [r g b]
-   * */
-  void parse_pigments();
-
-  /**
-   * # surfaces [numF]
-   * K_ambient K_diffuse K_specular shiness reflectiviy
-   * */
-  void parse_surfaces();
-
- private:
-  std::vector<materials::surface> surfaces;
-  std::vector<color> pigments;
-  light ambient_light;
 };
