@@ -12,14 +12,14 @@
 class camera {
  public:
   camera(){};
-  camera(vec3 lookfrom, vec3 lookat, vec3 vup, double vfov, double aspect) {
-    origin = lookfrom;
+  camera(vec3 eye, vec3 lookat, vec3 vup, double vfov, double aspect) {
+    origin = eye;
     vec3 u, v, w;
 
     auto theta = degrees_to_radians(vfov);
     auto half_height = tan(theta / 2);
     auto half_width = aspect * half_height;
-    w = unit_vector(lookfrom - lookat);
+    w = unit_vector(eye - lookat);
     u = unit_vector(cross(vup, w));
     v = cross(w, u);
 

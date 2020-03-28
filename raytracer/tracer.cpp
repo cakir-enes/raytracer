@@ -19,7 +19,6 @@ color trace(const ray& _ray,
    * If ray doesn't hit anything or recursion depth is exceeded return
    * background color
    * */
-
   if (depth > 50 || !world.hit(_ray, 0.001, infinity, rec))
     return bg_color;
 
@@ -54,15 +53,15 @@ color trace(const ray& _ray,
     // }
     return total;
   }();
-  // Overral color is sum of the illums from lights and material (scattered ray
+  // Overall color is sum of the illums from lights and material (scattered ray
   // colors)
   color overral_color = light_illumunations + material_illumunations;
-  return overral_color;
+  return light_illumunations;
 }
 
 bool is_visible(const vec3& p, const light& l, const hittable& world) {
   hit_record rec;
   auto d = l.pos - p;
   ray r = ray(p, unit_vector(d));
-  return world.hit(r, 0.001, d.length(), rec);
+  return !world.hit(r, 0.001, d.length(), rec);
 }
