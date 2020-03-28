@@ -25,8 +25,7 @@ options parse_options(std::string filename) {
     vec3 eye, at, up;
     double fov_y;
     in >> eye >> at >> up >> fov_y;
-    return camera(eye, at, up, fov_y, double(dims.first) / dims.second, 0.1,
-                  10.0);
+    return camera(eye, at, up, fov_y, double(dims.first) / dims.second);
   }();
 
   auto lights = [&in]() {

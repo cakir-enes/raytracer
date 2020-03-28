@@ -12,15 +12,8 @@
 class camera {
  public:
   camera(){};
-  camera(vec3 lookfrom,
-         vec3 lookat,
-         vec3 vup,
-         double vfov,
-         double aspect,
-         double aperture,
-         double focus_dist) {
+  camera(vec3 lookfrom, vec3 lookat, vec3 vup, double vfov, double aspect) {
     origin = lookfrom;
-    lens_radius = aperture / 2;
     vec3 u, v, w;
 
     auto theta = degrees_to_radians(vfov);
@@ -30,18 +23,15 @@ class camera {
     u = unit_vector(cross(vup, w));
     v = cross(w, u);
 
-    lower_left_corner = origin - half_width * focus_dist * u -
-                        half_height * focus_dist * v - focus_dist * w;
-    horizontal = 2 * half_width * focus_dist * u;
-    vertical = 2 * half_height * focus_dist * v;
+    lower_left_corner = origin - half_width * u - half_height * v - w;
+
+    horizontal = 2 * half_width * u;
+    vertical = 2 * half_height * v;
   }
 
   ray get_ray(double s, double t) {
-    vec3 rd = lens_radius * random_in_unit_disk();
-    vec3 offset = u * rd.x() + v * rd.y();
-
-    return ray(origin + offset, lower_left_corner + s * horizontal +
-                                    t * vertical - origin - offset);
+    return ray(origin,
+               lower_left_corner + s * horizontal + t * vertical - origin);
   }
 
  public:
@@ -49,6 +39,4 @@ class camera {
   vec3 lower_left_corner;
   vec3 horizontal;
   vec3 vertical;
-  vec3 u, v, w;
-  double lens_radius;
 };

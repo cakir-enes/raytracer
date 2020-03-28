@@ -62,7 +62,7 @@ color trace(const ray& _ray,
 
 bool is_visible(const vec3& p, const light& l, const hittable& world) {
   hit_record rec;
-  ray r = ray(p, unit_vector(l.pos - p));
-  return true;
-  // return !world.hit(r, 0.001, infinity, rec);
+  auto d = l.pos - p;
+  ray r = ray(p, unit_vector(d));
+  return world.hit(r, 0.001, d.length(), rec);
 }
