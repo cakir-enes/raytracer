@@ -11,27 +11,27 @@
 
 class camera {
  public:
-  camera(){};
+  camera() = default;
   camera(vec3 eye, vec3 lookat, vec3 vup, double vfov, double aspect) {
     origin = eye;
-    vec3 u, v, w;
+    vec3 z, x, y;
 
     auto theta = degrees_to_radians(vfov);
     auto half_height = tan(theta / 2);
     auto half_width = aspect * half_height;
-    w = unit_vector(eye - lookat);
-    u = unit_vector(cross(vup, w));
-    v = cross(w, u);
+    z = unit_vector(eye - lookat);
+    x = unit_vector(cross(vup, z));
+    y = cross(z, x);
 
-    lower_left_corner = origin - half_width * u - half_height * v - w;
+    lower_left_corner = origin - half_width * x - half_height * y - z;
 
-    horizontal = 2 * half_width * u;
-    vertical = 2 * half_height * v;
+    horizontal = 2 * half_width * x;
+    vertical = 2 * half_height * y;
   }
 
   ray get_ray(double s, double t) {
-    return ray(origin,
-               lower_left_corner + s * horizontal + t * vertical - origin);
+    return {origin,
+               lower_left_corner + s * horizontal + t * vertical - origin};
   }
 
  public:
