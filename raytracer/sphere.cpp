@@ -10,7 +10,7 @@
 
 #include <memory>
 
-#include "material.h"
+#include "surface.h"
 
 bool sphere::hit(const ray &r,
                  double t_min,
@@ -24,7 +24,7 @@ bool sphere::hit(const ray &r,
         rec.p = r.at(t);
         auto outward_normal = (rec.p - center) / radius;
         rec.set_face_normal(r, outward_normal);
-        rec.mat_ptr = std::make_shared<materials::surface>(mat_ptr);
+        rec.mat_ptr = std::make_shared<surface>(mat_ptr);
         return true;
     };
 

@@ -6,9 +6,8 @@
 //  Copyright © 2020 lymitshn. All rights reserved.
 //
 
-#include "material.h"
+#include "surface.h"
 
-namespace materials {
 
 double schlick(double cosine, double ref_idx) {
   auto r0 = (1 - ref_idx) / (1 + ref_idx);
@@ -19,6 +18,44 @@ double schlick(double cosine, double ref_idx) {
 std::vector<illumunation> surface::scatter(const ray& r_in,
                                            const hit_record& rec) const {
   std::vector<illumunation> il;
+  auto reflection = [&](){
+        illumunation i;
+        vec3 reflected = reflect(r_in.direction(), rec.normal);
+        ray scattered = ray(rec.p, reflected);
+        i.contribution = rec.mat_ptr->reflectivity;
+        i.scattered = scattered;
+      return i;
+  };
+
+//  auto refraction = [&](){
+//   attenuation = vec3(1.0, 1.0, 1.0);
+//   double etai_over_etat = (rec.front_face) ? (1.0 / ref_idx) : (ref_idx);
+//
+//   vec3 unit_direction = unit_vector(r_in.direction());
+//   double cos_theta = ffmin(dot(-unit_direction, rec.normal), 1.0);
+//   double sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+//   bool mustReflect = etai_over_etat * sin_theta > 1.0;
+//
+//   if (mustReflect) {
+//     vec3 reflected = reflect(unit_direction, rec.normal);
+//     scattered = ray(rec.p, reflected);
+//     return true;
+//   }
+//
+//   double reflect_prob = schlick(cos_theta, etai_over_etat);
+//
+//   if (random_double() < reflect_prob) {
+//     vec3 reflected = reflect(unit_direction, rec.normal);
+//     scattered = ray(rec.p, reflected);
+//     return true;
+//   }
+//
+//   vec3 refracted = refract(unit_direction, rec.normal, etai_over_etat);
+//   scattered = ray(rec.p, refracted);
+//   return true;
+//  }();
+    if (rec.mat_ptr->reflectivity > 0)
+        il.push_back(reflection());
   return il;
 }
 // bool lambertian::scatter(const ray& r_in,
@@ -72,4 +109,3 @@ std::vector<illumunation> surface::scatter(const ray& r_in,
 //   return true;
 // }
 
-};  // namespace materials

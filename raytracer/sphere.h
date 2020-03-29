@@ -10,13 +10,13 @@
 #define sphere_h
 
 #include "hittable.h"
-#include "material.h"
+#include "surface.h"
 #include "vec3.h"
 
 class sphere : public hittable {
  public:
   sphere() {}
-  sphere(vec3 cen, double r, materials::surface m)
+  sphere(vec3 cen, double r, surface m)
       : center(cen), radius(r), mat_ptr(m){};
 
   virtual bool hit(const ray& r,
@@ -27,7 +27,7 @@ class sphere : public hittable {
  public:
   vec3 center;
   double radius;
-  materials::surface mat_ptr;
+  surface mat_ptr;
 };
 
 #endif /* sphere_h */

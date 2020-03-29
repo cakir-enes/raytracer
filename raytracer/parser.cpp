@@ -55,9 +55,9 @@ options parse_options(std::string filename) {
   }();
   std::cerr << "PIGMENT SIZE " << pigments.size() << "\n";
   auto surfaces = [&in]() {
-    std::vector<materials::surface> surfaces;
+    std::vector<surface> surfaces;
     int numF;
-    materials::surface s;
+    surface s;
     in >> numF;
     for (int i = 0; i < numF; i++) {
       in >> s;

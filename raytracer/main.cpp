@@ -16,16 +16,16 @@
 #include "camera.h"
 #include "hittable_list.hpp"
 #include "light.h"
-#include "material.h"
+#include "surface.h"
 #include "parser.h"
 #include "sphere.h"
 #include "tracer.h"
 #include "utils.h"
-using namespace materials;
+
 
 int main(int argc, const char* argv[]) {
 
-  std::string file = "/Users/ecakir/Desktop/Projectz/raytracer/raytracer/test2.in";
+  std::string file = "/Users/ecakir/Desktop/Projectz/raytracer/raytracer/test2reflective.in";
   std::ofstream out;
   auto opts = parse_options(file);
   out.open("out.ppm", std::ios::out | std::ios::binary);

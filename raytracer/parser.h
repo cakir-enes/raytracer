@@ -5,7 +5,7 @@
 #include "camera.h"
 #include "hittable_list.hpp"
 #include "light.h"
-#include "material.h"
+#include "surface.h"
 
 struct options {
   std::string output_name;

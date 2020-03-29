@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-#include "material.h"
+#include "surface.h"
 #include "utils.h"
 #include "vec3.h"
 
@@ -11,7 +11,7 @@ color phong(const light& l, const hit_record& rec) {
 
   vec3 L = unit_vector(l.pos - rec.p);  // to light src
   vec3 V = unit_vector(-rec.p);         // to viewer
-  vec3 N = (rec.normal);                  // normal
+  vec3 N = rec.normal;                  // normal
   vec3 H = unit_vector(L + V);          // halfway
 
   auto K = rec.mat_ptr;

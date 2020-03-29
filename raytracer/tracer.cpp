@@ -2,7 +2,7 @@
 
 #include "hittable.h"
 #include "light.h"
-#include "material.h"
+#include "surface.h"
 #include "ray.h"
 #include "vec3.h"
 
@@ -13,13 +13,12 @@ color trace(const ray& _ray,
             const color& bg_color,
             int depth) {
   hit_record rec;
-  ray scattered;
 
   /**
    * If ray doesn't hit anything or recursion depth is exceeded return
    * background color
    * */
-  if (depth > 50 || !world.hit(_ray, 0.001, infinity, rec))
+  if (depth > 4 || !world.hit(_ray, 0.001, infinity, rec))
     return bg_color;
 
   /**
@@ -46,17 +45,16 @@ color trace(const ray& _ray,
    * at the hit/intersection point P.
    * */
   color material_illumunations = [&]() {
-    color total = vec3(0., 0., 0.);
-    // for (const auto& illum : rec.mat_ptr->scatter(_ray, rec)) {
-    //   total += illum.contribution *
-    //            trace(illum.scattered, world, lights, bg_color, depth + 1);
-    // }
+    color total = color(0, 0, 0);
+     for (const auto& illum : rec.mat_ptr->scatter(_ray, rec)) {
+       total += illum.contribution * trace(illum.scattered, world, ambient_light, lights, bg_color, depth + 1);
+     }
     return total;
   }();
   // Overall color is sum of the illums from lights and material (scattered ray
   // colors)
   color overral_color = light_illumunations + material_illumunations;
-  return light_illumunations;
+  return overral_color;
 }
 
 bool is_visible(const vec3& p, const light& l, const hittable& world) {
