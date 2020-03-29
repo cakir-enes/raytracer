@@ -1,24 +1,11 @@
-//
-//  main.cpp
-//  raytracer
-//
-//  Created by Enes Cakir on 24.03.2020.
-//  Copyright © 2020 lymitshn. All rights reserved.
-//
+
 
 #include <algorithm>
-#include <functional>
 #include <iostream>
 #include <fstream>
 #include <istream>
-#include <vector>
 
-#include "camera.h"
-#include "hittable_list.hpp"
-#include "light.h"
-#include "surface.h"
 #include "parser.h"
-#include "sphere.h"
 #include "tracer.h"
 #include "utils.h"
 
@@ -27,9 +14,9 @@ int main(int argc, const char* argv[]) {
 
   std::string file = "/Users/ecakir/Desktop/Projectz/raytracer/raytracer/test2reflective.in";
   std::ofstream out;
-  auto opts = parse_options(file);
+    auto opts = parse_options(file, false);
   out.open("out.ppm", std::ios::out | std::ios::binary);
-  const int samples_per_pixel = 2;
+    const int samples_per_pixel = 1;
 //  const int max_depth = 50;
 
   const color bg_color(0.5, 0.5, 0.5);

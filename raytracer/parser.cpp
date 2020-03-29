@@ -4,16 +4,17 @@
 
 #include "sphere.h"
 
-options parse_options(std::string filename) {
-  std::ifstream in(filename);
-  if (!in.is_open())
-    return options{};
 
-  auto out_name = [&in]() {
-    std::string out;
-    getline(in, out);
-    return out;
-  }();
+options parse_options(std::string filename, bool refractive) {
+    std::ifstream in(filename);
+    if (!in.is_open())
+        return options{};
+
+    auto out_name = [&in]() {
+        std::string out;
+        getline(in, out);
+        return out;
+    }();
 
   auto dims = [&in]() {
     int w, h;
@@ -43,37 +44,43 @@ options parse_options(std::string filename) {
   std::cerr << "LIGHT SIZE " << lights.size() << "\n";
   auto pigments = [&in]() {
     int numP;
-    std::string type;
-    std::vector<color> colors;
-    in >> numP;
-    color c;
-    for (int i = 0; i < numP; i++) {
-      in >> type >> c;
-      colors.push_back(c);
-    }
-    return colors;
+      std::string type;
+      std::vector<color> colors;
+      in >> numP;
+      color c;
+      for (int i = 0; i < numP; i++) {
+          in >> type >> c;
+          colors.push_back(c);
+      }
+      return colors;
   }();
-  std::cerr << "PIGMENT SIZE " << pigments.size() << "\n";
-  auto surfaces = [&in]() {
-    std::vector<surface> surfaces;
-    int numF;
-    surface s;
-    in >> numF;
-    for (int i = 0; i < numF; i++) {
-      in >> s;
-      surfaces.push_back(s);
-    }
-    return surfaces;
-  }();
-  std::cerr << "SURFACES SIZE " << pigments.size() << "\n";
-  auto objects = [&]() {
-    hittable_list world;
-    int n, pigment_idx, surface_idx;
-    in >> n;
-    std::string type;
-    vec3 pos;
-    float radius;
-    for (int i = 0; i < n; i++) {
+
+    auto surfaces = [&in, refractive]() {
+        std::vector<surface> surfaces;
+        int numF;
+        surface s;
+        in >> numF;
+        for (int i = 0; i < numF; i++) {
+            in >> s;
+            if (refractive) {
+                in >> s.transparency >> s.ior;
+            } else {
+                s.transparency = 0.0;
+                s.ior = 0.0;
+            }
+            surfaces.push_back(s);
+        }
+        return surfaces;
+    }();
+
+    auto objects = [&]() {
+        hittable_list world;
+        int n, pigment_idx, surface_idx;
+        in >> n;
+        std::string type;
+        vec3 pos;
+        float radius;
+        for (int i = 0; i < n; i++) {
       in >> pigment_idx >> surface_idx >> type >> pos >> radius;
       auto s = surfaces[surface_idx];
       s.pigment = pigments[pigment_idx];
@@ -87,4 +94,4 @@ options parse_options(std::string filename) {
 
   return options{out_name, dims.first, dims.second, cam,
                  ambient,  lights,     objects};
-};
+}

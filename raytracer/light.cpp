@@ -16,7 +16,7 @@ color phong(const light& l, const hit_record& rec) {
 
   auto K = rec.mat_ptr;
   auto dist = (l.pos - rec.p).length();
-  auto attenuation =  (l.a  + l.b * dist + l.c * dist * dist);
+    double attenuation = (l.a + l.b * dist + l.c * dist * dist);
 
   auto diffuse = rec.mat_ptr->pigment * K->diffuse * ffmax(0, dot(L, N));
   auto specular = K->specular * pow(ffmax(0, dot(H, N)), double(K->shiniess));

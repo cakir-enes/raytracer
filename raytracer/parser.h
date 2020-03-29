@@ -17,4 +17,4 @@ struct options {
   hittable_list objects;
 };
 
-options parse_options(std::string filename);
+options parse_options(std::string filename, bool refractive = false);
