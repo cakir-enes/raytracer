@@ -32,8 +32,7 @@ color trace(const ray& _ray,
 
     for (const auto& l : lights) {
       if (is_visible(rec.p, l, world)) {
-        auto _p = phong(l, rec);
-        total += _p;
+          total += phong(l, rec);
       }
     }
     return total;
@@ -53,8 +52,7 @@ color trace(const ray& _ray,
   }();
   // Overall color is sum of the illums from lights and material (scattered ray
   // colors)
-  color overral_color = light_illumunations + material_illumunations;
-  return overral_color;
+    return light_illumunations + material_illumunations;
 }
 
 bool is_visible(const vec3& p, const light& l, const hittable& world) {

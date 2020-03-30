@@ -3,12 +3,14 @@
 #include <fstream>
 
 #include "sphere.h"
+#include <sstream>
 
-
-options parse_options(std::string filename, bool refractive) {
+options parse_options(std::string filename) {
     std::ifstream in(filename);
-    if (!in.is_open())
+    if (!in.is_open()) {
+        std::cerr << "Cant open " << filename << "\n";
         return options{};
+    }
 
     auto out_name = [&in]() {
         std::string out;
@@ -16,7 +18,7 @@ options parse_options(std::string filename, bool refractive) {
         return out;
     }();
 
-  auto dims = [&in]() {
+    auto dims = [&in]() {
     int w, h;
     in >> w >> h;
     return std::pair<int, int>(w, h);
@@ -41,7 +43,7 @@ options parse_options(std::string filename, bool refractive) {
     }
     return lights;
   }();
-  std::cerr << "LIGHT SIZE " << lights.size() << "\n";
+
   auto pigments = [&in]() {
     int numP;
       std::string type;
@@ -55,14 +57,35 @@ options parse_options(std::string filename, bool refractive) {
       return colors;
   }();
 
-    auto surfaces = [&in, refractive]() {
+    auto surfaces = [&in]() {
         std::vector<surface> surfaces;
         int numF;
         surface s;
         in >> numF;
-        for (int i = 0; i < numF; i++) {
+
+        auto is_refractive = [&]() {
+            std::string str;
+            std::stringstream ss;
+            in.ignore();
+            std::getline(in, str);
+            ss.str(str);
+
+            int number_count = count_words(str);
+            bool ref = number_count == 7;
+            ss >> s;
+            if (ref) {
+                ss >> s.transparency >> s.ior;
+            } else {
+                s.transparency = 0;
+                s.ior = 0;
+            }
+            surfaces.push_back(s);
+            return ref;
+        }();
+        // First line already parsed by is_refractive.
+        for (int i = 1; i < numF; i++) {
             in >> s;
-            if (refractive) {
+            if (is_refractive) {
                 in >> s.transparency >> s.ior;
             } else {
                 s.transparency = 0.0;
@@ -88,7 +111,6 @@ options parse_options(std::string filename, bool refractive) {
     }
     return world;
   }();
-  std::cerr << "WORLD SIZE " << objects.objects.size() << "\n";
   light ambient = lights[0];
   lights.erase(lights.begin());
 

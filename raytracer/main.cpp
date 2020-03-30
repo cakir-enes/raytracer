@@ -12,21 +12,31 @@
 
 int main(int argc, const char* argv[]) {
 
-  std::string file = "/Users/ecakir/Desktop/Projectz/raytracer/raytracer/test2reflective.in";
-  std::ofstream out;
-    auto opts = parse_options(file, false);
-  out.open("out.ppm", std::ios::out | std::ios::binary);
-    const int samples_per_pixel = 1;
-//  const int max_depth = 50;
+    std::string file;
+    int samples_per_pixel = 1;
+    if (argc == 1) {
+        std::cerr << "Please specify input path. ./main <filename> \n";
+        return -1;
+    } else {
+        file = argv[1];
+        if (argc > 2) {
+            samples_per_pixel = atoi(argv[2]);
+        }
+    }
 
-  const color bg_color(0.5, 0.5, 0.5);
+    std::ofstream out;
+    auto opts = parse_options(file);
+    out.open(opts.output_name, std::ios::out | std::ios::binary);
 
-  out << "P3\n" << opts.width << ' ' << opts.height << "\n255\n";
 
-  for (int j = opts.height - 1; j >= 0; --j) {
-    std::cerr << "\rScanlines Remaining: " << j << ' ' << std::flush;
-    for (int i = 0; i < opts.width; ++i) {
-      color c(0, 0, 0);
+    const color bg_color(0.5, 0.5, 0.5);
+
+    out << "P3\n" << opts.width << ' ' << opts.height << "\n255\n";
+
+    for (int j = opts.height - 1; j >= 0; --j) {
+        std::cerr << "\rRemaining: " << j << ' ' << std::flush;
+        for (int i = 0; i < opts.width; ++i) {
+            color c(0, 0, 0);
       for (int s = 0; s < samples_per_pixel; ++s) {
         auto u = (i + random_double()) / opts.width;
         auto v = (j + random_double()) / opts.height;

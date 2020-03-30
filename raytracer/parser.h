@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <sstream>
 
 #include "camera.h"
 #include "hittable_list.hpp"
@@ -17,4 +18,13 @@ struct options {
   hittable_list objects;
 };
 
-options parse_options(std::string filename, bool refractive = false);
+options parse_options(std::string filename);
+
+inline int count_words(std::string str) {
+    std::stringstream stream(str);
+    std::string oneWord;
+    unsigned int count = 0;
+
+    while (stream >> oneWord) { ++count; }
+    return count;
+}

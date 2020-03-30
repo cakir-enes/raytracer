@@ -1,13 +1,5 @@
-//
-//  sphere.h
-//  raytracer
-//
-//  Created by Enes Cakir on 24.03.2020.
-//  Copyright © 2020 lymitshn. All rights reserved.
-//
 
-#ifndef sphere_h
-#define sphere_h
+#pragma once
 
 #include "hittable.h"
 #include "surface.h"
@@ -15,7 +7,6 @@
 
 class sphere : public hittable {
  public:
-  sphere() {}
   sphere(vec3 cen, double r, surface m)
       : center(cen), radius(r), mat_ptr(m){};
 
@@ -29,5 +20,3 @@ class sphere : public hittable {
   double radius;
   surface mat_ptr;
 };
-
-#endif /* sphere_h */
